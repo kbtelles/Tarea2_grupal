@@ -53,6 +53,55 @@ void guardarPalabraEnArchivo(const string& nombreArchivo, const Palabra& nuevaPa
     archivo.close();
 }
 
+// Función para sobrescribir todas las palabras
+void guardarTodasLasPalabras(const string& nombreArchivo, const vector<Palabra>& palabras) {
+    ofstream archivo(nombreArchivo, ios::trunc); // Sobrescribe el archivo completo
+    for (const auto& p : palabras) {
+        archivo << p.palabra << ";" << p.traduccion << ";" << p.funcionalidad << endl;
+    }
+    archivo.close();
+}
+
+// Función para editar una palabra existente
+void editarPalabra(vector<Palabra>& palabras, const string& nombreArchivo) {
+    string palabraBuscada;
+    cout << "Ingrese la palabra que desea editar: ";
+    getline(cin, palabraBuscada);
+
+    bool encontrada = false;
+
+    for (auto& p : palabras) {
+        if (p.palabra == palabraBuscada) {
+            encontrada = true;
+            cout << "Palabra encontrada.\n";
+            cout << "Traducción actual: " << p.traduccion << endl;
+            cout << "Funcionalidad actual: " << p.funcionalidad << endl;
+
+            cout << "Ingrese la nueva traducción (o presione Enter para no cambiar): ";
+            string nuevaTraduccion;
+            getline(cin, nuevaTraduccion);
+            if (!nuevaTraduccion.empty()) {
+                p.traduccion = nuevaTraduccion;
+            }
+
+            cout << "Ingrese la nueva funcionalidad (o presione Enter para no cambiar): ";
+            string nuevaFuncionalidad;
+            getline(cin, nuevaFuncionalidad);
+            if (!nuevaFuncionalidad.empty()) {
+                p.funcionalidad = nuevaFuncionalidad;
+            }
+
+            guardarTodasLasPalabras(nombreArchivo, palabras);
+            cout << "Palabra actualizada exitosamente.\n";
+            break;
+        }
+    }
+
+    if (!encontrada) {
+        cout << "La palabra no se encontró en el diccionario.\n";
+    }
+}
+
 int main() {
     string nombreArchivo = "diccionario.txt";
     vector<Palabra> palabras = cargarPalabrasDesdeArchivo(nombreArchivo);
@@ -63,6 +112,8 @@ int main() {
 
     if (palabraExiste(palabras, nuevaPalabra.palabra)) {
         cout << "La palabra ya existe en el diccionario.\n";
+        // Si ya existe, damos opción de editar
+        editarPalabra(palabras, nombreArchivo);
     } else {
         cout << "Ingrese la traduccion: ";
         getline(cin, nuevaPalabra.traduccion);
