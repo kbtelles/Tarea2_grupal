@@ -53,6 +53,32 @@ void guardarPalabraEnArchivo(const string& nombreArchivo, const Palabra& nuevaPa
     archivo.close();
 }
 
+// Función leer que imprime el contenido del archivo
+ void leer(const string& nombreArchivo) {
+     ifstream archivo(nombreArchivo);
+ 
+     // Verificar si el archivo se abre correctamente
+     if (!archivo.is_open()) {
+         cout << "No se pudo abrir el archivo " << nombreArchivo << endl;
+         return;  // Si no se puede abrir, retorna
+     }
+ 
+     string linea;
+     cout << "\nContenido del archivo:\n";
+     while (getline(archivo, linea)) {
+         stringstream ss(linea);
+         string palabra, traduccion, funcionalidad;
+ 
+         getline(ss, palabra, ';');
+         getline(ss, traduccion, ';');
+         getline(ss, funcionalidad);
+ 
+         cout << "Palabra: " << palabra << ", Traduccion: " << traduccion << ", Funcionalidad: " << funcionalidad << endl;
+     }
+ 
+     archivo.close();
+ }
+
 // Función para sobrescribir todas las palabras
 void guardarTodasLasPalabras(const string& nombreArchivo, const vector<Palabra>& palabras) {
     ofstream archivo(nombreArchivo, ios::trunc); // Sobrescribe el archivo completo
