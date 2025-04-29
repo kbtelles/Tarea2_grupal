@@ -53,30 +53,53 @@ void guardarPalabraEnArchivo(const string& nombreArchivo, const Palabra& nuevaPa
     archivo.close();
 }
 
-// Función leer que imprime el contenido del archivo
-void leer(const string& nombreArchivo) {
-    ifstream archivo(nombreArchivo);
-
-    // Verificar si el archivo se abre correctamente
-    if (!archivo.is_open()) {
-        cout << "No se pudo abrir el archivo " << nombreArchivo << endl;
-        return;  // Si no se puede abrir, retorna
+// Función para sobrescribir todas las palabras
+void guardarTodasLasPalabras(const string& nombreArchivo, const vector<Palabra>& palabras) {
+    ofstream archivo(nombreArchivo, ios::trunc); // Sobrescribe el archivo completo
+    for (const auto& p : palabras) {
+        archivo << p.palabra << ";" << p.traduccion << ";" << p.funcionalidad << endl;
     }
-
-    string linea;
-    cout << "\nContenido del archivo:\n";
-    while (getline(archivo, linea)) {
-        stringstream ss(linea);
-        string palabra, traduccion, funcionalidad;
-
-        getline(ss, palabra, ';');
-        getline(ss, traduccion, ';');
-        getline(ss, funcionalidad);
-
-        cout << "Palabra: " << palabra << ", Traduccion: " << traduccion << ", Funcionalidad: " << funcionalidad << endl;
-    }
-
     archivo.close();
+}
+
+// Función para editar una palabra existente
+void editarPalabra(vector<Palabra>& palabras, const string& nombreArchivo) {
+    string palabraBuscada;
+    cout << "Ingrese la palabra que desea editar: ";
+    getline(cin, palabraBuscada);
+
+    bool encontrada = false;
+
+    for (auto& p : palabras) {
+        if (p.palabra == palabraBuscada) {
+            encontrada = true;
+            cout << "Palabra encontrada.\n";
+            cout << "Traducción actual: " << p.traduccion << endl;
+            cout << "Funcionalidad actual: " << p.funcionalidad << endl;
+
+            cout << "Ingrese la nueva traducción (o presione Enter para no cambiar): ";
+            string nuevaTraduccion;
+            getline(cin, nuevaTraduccion);
+            if (!nuevaTraduccion.empty()) {
+                p.traduccion = nuevaTraduccion;
+            }
+
+            cout << "Ingrese la nueva funcionalidad (o presione Enter para no cambiar): ";
+            string nuevaFuncionalidad;
+            getline(cin, nuevaFuncionalidad);
+            if (!nuevaFuncionalidad.empty()) {
+                p.funcionalidad = nuevaFuncionalidad;
+            }
+
+            guardarTodasLasPalabras(nombreArchivo, palabras);
+            cout << "Palabra actualizada exitosamente.\n";
+            break;
+        }
+    }
+
+    if (!encontrada) {
+        cout << "La palabra no se encontró en el diccionario.\n";
+    }
 }
 
 int main() {
@@ -89,6 +112,8 @@ int main() {
 
     if (palabraExiste(palabras, nuevaPalabra.palabra)) {
         cout << "La palabra ya existe en el diccionario.\n";
+        // Si ya existe, damos opción de editar
+        editarPalabra(palabras, nombreArchivo);
     } else {
         cout << "Ingrese la traduccion: ";
         getline(cin, nuevaPalabra.traduccion);
@@ -102,4 +127,3 @@ int main() {
 
     return 0;
 }
-
