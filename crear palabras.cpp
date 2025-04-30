@@ -4,7 +4,7 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
-#include <fstream>
+
 
 using namespace std;
 
@@ -105,7 +105,7 @@ void editarPalabra(vector<Palabra>& palabras, const string& nombreArchivo) {
             cout << "Traduccion actual: " << p.traduccion << endl;
             cout << "Funcionalidad actual: " << p.funcionalidad << endl;
 
-            cout << "Ingrese la nueva traducción (o presione Enter para no cambiar): ";
+            cout << "Ingrese la nueva traduccion (o presione Enter para no cambiar): ";
             string nuevaTraduccion;
             getline(cin, nuevaTraduccion);
             if (!nuevaTraduccion.empty()) {
@@ -126,7 +126,7 @@ void editarPalabra(vector<Palabra>& palabras, const string& nombreArchivo) {
     }
 
     if (!encontrada) {
-        cout << "La palabra no se encontró en el diccionario.\n";
+        cout << "La palabra no se encontro en el diccionario.\n";
     }
 }
 
@@ -146,7 +146,7 @@ void eliminarPalabra(vector<Palabra>& palabras, const string& nombreArchivo) {
         guardarTodasLasPalabras(nombreArchivo, palabras);
         cout << "Palabra eliminada exitosamente.\n";
     } else {
-        cout << "La palabra no se encontró en el diccionario.\n";
+        cout << "La palabra no se encontro en el diccionario.\n";
     }
 }
 /*mi parte David*//////////////////////////////////////////////////////////////////////////////////
@@ -267,7 +267,7 @@ int main() {
                 cout << "Saliendo del programa\n";
                 break;
             default:
-                cout << "Opción no válida, intente de nuevo.\n";
+                cout << "Opcion no valida, intente de nuevo.\n";
         }
     } while (opcion != 6);
 
