@@ -4,7 +4,7 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
-#include <fstream>
+
 
 using namespace std;
 
@@ -105,7 +105,7 @@ void editarPalabra(vector<Palabra>& palabras, const string& nombreArchivo) {
             cout << "Traduccion actual: " << p.traduccion << endl;
             cout << "Funcionalidad actual: " << p.funcionalidad << endl;
 
-            cout << "Ingrese la nueva traducción (o presione Enter para no cambiar): ";
+            cout << "Ingrese la nueva traduccion (o presione Enter para no cambiar): ";
             string nuevaTraduccion;
             getline(cin, nuevaTraduccion);
             if (!nuevaTraduccion.empty()) {
@@ -126,7 +126,7 @@ void editarPalabra(vector<Palabra>& palabras, const string& nombreArchivo) {
     }
 
     if (!encontrada) {
-        cout << "La palabra no se encontró en el diccionario.\n";
+        cout << "La palabra no se encontro en el diccionario.\n";
     }
 }
 
@@ -146,7 +146,7 @@ void eliminarPalabra(vector<Palabra>& palabras, const string& nombreArchivo) {
         guardarTodasLasPalabras(nombreArchivo, palabras);
         cout << "Palabra eliminada exitosamente.\n";
     } else {
-        cout << "La palabra no se encontró en el diccionario.\n";
+        cout << "La palabra no se encontro en el diccionario.\n";
     }
 }
 /*mi parte David*//////////////////////////////////////////////////////////////////////////////////
@@ -161,60 +161,46 @@ void traducirTexto(const vector<Palabra>& palabras) {
         textoOriginal.push_back(linea);
     }
 
-  
-    vector<string> estructurasControl = {"if", "for", "while", "switch"};
-
-
-    vector<string> pilaEstructuras;
-
     cout << "\nTexto traducido:\n";
 
     for (string& linea : textoOriginal) {
         stringstream ss(linea);
         string palabra;
         string lineaTraducida;
+        string estructuraActual = "";
+        bool esEstructuraControl = false;
 
         while (ss >> palabra) {
             string palabraLimpia = palabra;
-           
             palabraLimpia.erase(remove_if(palabraLimpia.begin(), palabraLimpia.end(), ::ispunct), palabraLimpia.end());
 
-            // Buscar la traducción
             auto it = find_if(palabras.begin(), palabras.end(), [&palabraLimpia](const Palabra& p) {
                 return p.palabra == palabraLimpia;
             });
 
-          
             if (it != palabras.end()) {
                 string traduccion = it->traduccion;
 
-                if (find(estructurasControl.begin(), estructurasControl.end(), palabraLimpia) != estructurasControl.end()
-                    && linea.find("{") != string::npos) {
+                if (palabraLimpia == "if" || palabraLimpia == "else" || palabraLimpia == "else if") {
+                    estructuraActual = traduccion; // "si", "sino", etc.
+                    esEstructuraControl = true;
                     lineaTraducida += traduccion + " ";
-                    lineaTraducida += "inicio_" + palabraLimpia + " ";
-                    pilaEstructuras.push_back(palabraLimpia);
                     continue;
                 }
 
-              
                 lineaTraducida += traduccion + " ";
             } else {
                 lineaTraducida += palabra + " ";
             }
         }
 
-    
-        if (linea.find("}") != string::npos) {
-            if (!pilaEstructuras.empty()) {
-                string estructura = pilaEstructuras.back();
-                pilaEstructuras.pop_back();
-                lineaTraducida += "fin_" + estructura;
-            } else {
-                lineaTraducida += "}";
-            }
+        if (esEstructuraControl) {
+            cout << lineaTraducida << "inicio " << estructuraActual << endl;
+            cout << "fin " << estructuraActual << endl;
+        } else {
+            cout << lineaTraducida << endl;
         }
 
-        cout << lineaTraducida << endl;
     }
 }
 
@@ -281,9 +267,9 @@ int main() {
                 cout << "Saliendo del programa\n";
                 break;
             default:
-                cout << "Opción no válida, intente de nuevo.\n";
+                cout << "Opcion no valida, intente de nuevo.\n";
         }
-    } while (opcion != 5);
+    } while (opcion != 6);
 
     return 0;
 }
