@@ -4,7 +4,7 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
-
+#include <fstream>
 
 using namespace std;
 
@@ -18,7 +18,7 @@ struct Palabra {
 // Función para cargar palabras desde el archivo
 vector<Palabra> cargarPalabrasDesdeArchivo(const string& nombreArchivo) {
     vector<Palabra> palabras;
-    ifstream archivo(nombreArchivo);
+	ifstream archivo(nombreArchivo.c_str());
     string linea;
 
     while (getline(archivo, linea)) {
@@ -149,7 +149,74 @@ void eliminarPalabra(vector<Palabra>& palabras, const string& nombreArchivo) {
         cout << "La palabra no se encontró en el diccionario.\n";
     }
 }
+/*mi parte David*//////////////////////////////////////////////////////////////////////////////////
+void traducirTexto(const vector<Palabra>& palabras) {
+    cout << "Ingrese el texto a traducir (finalice con una línea vacía):\n";
 
+    string linea;
+    vector<string> textoOriginal;
+    while (true) {
+        getline(cin, linea);
+        if (linea.empty()) break;
+        textoOriginal.push_back(linea);
+    }
+
+  
+    vector<string> estructurasControl = {"if", "for", "while", "switch"};
+
+
+    vector<string> pilaEstructuras;
+
+    cout << "\nTexto traducido:\n";
+
+    for (string& linea : textoOriginal) {
+        stringstream ss(linea);
+        string palabra;
+        string lineaTraducida;
+
+        while (ss >> palabra) {
+            string palabraLimpia = palabra;
+           
+            palabraLimpia.erase(remove_if(palabraLimpia.begin(), palabraLimpia.end(), ::ispunct), palabraLimpia.end());
+
+            // Buscar la traducción
+            auto it = find_if(palabras.begin(), palabras.end(), [&palabraLimpia](const Palabra& p) {
+                return p.palabra == palabraLimpia;
+            });
+
+          
+            if (it != palabras.end()) {
+                string traduccion = it->traduccion;
+
+                if (find(estructurasControl.begin(), estructurasControl.end(), palabraLimpia) != estructurasControl.end()
+                    && linea.find("{") != string::npos) {
+                    lineaTraducida += traduccion + " ";
+                    lineaTraducida += "inicio_" + palabraLimpia + " ";
+                    pilaEstructuras.push_back(palabraLimpia);
+                    continue;
+                }
+
+              
+                lineaTraducida += traduccion + " ";
+            } else {
+                lineaTraducida += palabra + " ";
+            }
+        }
+
+    
+        if (linea.find("}") != string::npos) {
+            if (!pilaEstructuras.empty()) {
+                string estructura = pilaEstructuras.back();
+                pilaEstructuras.pop_back();
+                lineaTraducida += "fin_" + estructura;
+            } else {
+                lineaTraducida += "}";
+            }
+        }
+
+        cout << lineaTraducida << endl;
+    }
+}
 
 
 int main() {
@@ -163,7 +230,8 @@ int main() {
         cout << "2. Leer\n";
         cout << "3. Actualizar\n";
         cout << "4. Eliminar\n";
-        cout << "5. Salir\n";
+        cout << "5. Traducir texto\n";
+        cout << "6. Salir\n";
         cout << "Seleccione una opcion: ";
         cin >> opcion;
         cin.ignore(); 
@@ -203,7 +271,12 @@ int main() {
                 // Eliminar palabra
                 eliminarPalabra(palabras, nombreArchivo);
                 break;
-            case 5:
+                
+                case 5:
+                // Traduciendo el texto
+                traducirTexto(palabras);
+                break;
+            case 6:
                 // Salir
                 cout << "Saliendo del programa\n";
                 break;
