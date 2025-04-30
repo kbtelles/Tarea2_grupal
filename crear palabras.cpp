@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <algorithm>
+
 
 using namespace std;
 
@@ -100,7 +102,7 @@ void editarPalabra(vector<Palabra>& palabras, const string& nombreArchivo) {
         if (p.palabra == palabraBuscada) {
             encontrada = true;
             cout << "Palabra encontrada.\n";
-            cout << "Traducción actual: " << p.traduccion << endl;
+            cout << "Traduccion actual: " << p.traduccion << endl;
             cout << "Funcionalidad actual: " << p.funcionalidad << endl;
 
             cout << "Ingrese la nueva traducción (o presione Enter para no cambiar): ";
@@ -128,28 +130,89 @@ void editarPalabra(vector<Palabra>& palabras, const string& nombreArchivo) {
     }
 }
 
+
+// Función para eliminar una palabra
+void eliminarPalabra(vector<Palabra>& palabras, const string& nombreArchivo) {
+    string palabraBuscada;
+    cout << "Ingrese la palabra que desea eliminar: ";
+    getline(cin, palabraBuscada);
+
+    auto it = remove_if(palabras.begin(), palabras.end(), [&palabraBuscada](const Palabra& p) {
+        return p.palabra == palabraBuscada;
+    });
+
+    if (it != palabras.end()) {
+        palabras.erase(it, palabras.end());
+        guardarTodasLasPalabras(nombreArchivo, palabras);
+        cout << "Palabra eliminada exitosamente.\n";
+    } else {
+        cout << "La palabra no se encontró en el diccionario.\n";
+    }
+}
+
+
+
 int main() {
     string nombreArchivo = "diccionario.txt";
     vector<Palabra> palabras = cargarPalabrasDesdeArchivo(nombreArchivo);
 
-    Palabra nuevaPalabra;
-    cout << "Ingrese la palabra: ";
-    getline(cin, nuevaPalabra.palabra);
+    int opcion;
+    do {
+        cout << "\nMenu de opciones:\n";
+        cout << "1. Crear\n";
+        cout << "2. Leer\n";
+        cout << "3. Actualizar\n";
+        cout << "4. Eliminar\n";
+        cout << "5. Salir\n";
+        cout << "Seleccione una opcion: ";
+        cin >> opcion;
+        cin.ignore(); 
 
-    if (palabraExiste(palabras, nuevaPalabra.palabra)) {
-        cout << "La palabra ya existe en el diccionario.\n";
-        // Si ya existe, damos opción de editar
-        editarPalabra(palabras, nombreArchivo);
-    } else {
-        cout << "Ingrese la traduccion: ";
-        getline(cin, nuevaPalabra.traduccion);
+        switch (opcion) {
+            case 1: {
+                // Agregar palabra
+                Palabra nuevaPalabra;
+                cout << "Ingrese la palabra: ";
+                getline(cin, nuevaPalabra.palabra);
 
-        cout << "Ingrese la funcionalidad: ";
-        getline(cin, nuevaPalabra.funcionalidad);
+                if (palabraExiste(palabras, nuevaPalabra.palabra)) {
+                    cout << "La palabra ya existe en el diccionario.\n";
+                    // No se edita, simplemente se vuelve a mostrar el menú
+                } else {
+                    cout << "Ingrese la traduccion: ";
+                    getline(cin, nuevaPalabra.traduccion);
 
-        guardarPalabraEnArchivo(nombreArchivo, nuevaPalabra);
-        cout << "Palabra guardada exitosamente.\n";
-    }
+                    cout << "Ingrese la funcionalidad: ";
+                    getline(cin, nuevaPalabra.funcionalidad);
+
+                    guardarPalabraEnArchivo(nombreArchivo, nuevaPalabra);
+                    palabras.push_back(nuevaPalabra);
+                    cout << "Palabra guardada exitosamente.\n";
+                }
+                break;
+            }
+            case 2:
+                // Ver todas las palabras
+                leer(nombreArchivo);
+                break;
+            case 3:
+                // Editar palabra
+                editarPalabra(palabras, nombreArchivo);
+                break;
+            case 4:
+                // Eliminar palabra
+                eliminarPalabra(palabras, nombreArchivo);
+                break;
+            case 5:
+                // Salir
+                cout << "Saliendo del programa\n";
+                break;
+            default:
+                cout << "Opción no válida, intente de nuevo.\n";
+        }
+    } while (opcion != 5);
 
     return 0;
 }
+
+
