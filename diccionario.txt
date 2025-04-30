@@ -1,0 +1,61 @@
+asm;ensamblador;Inserta c¢digo ensamblador en C++
+auto;automatico;Deduce autom ticamente el tipo de variable
+bool;booleano;Tipo de dato verdadero/falso
+break;romper;Sale de bucles o switch
+case;caso;Define un caso dentro de un switch
+catch;capturar;Maneja excepciones lanzadas por try
+char;car cter;Tipo de dato para caracteres
+class;clase;Define una clase
+const;constante;Declara valores que no pueden cambiar
+const_cast;conversi¢n constante;Convierte entre tipos quitando const
+continue;continuar;Salta a la siguiente iteraci¢n del bucle
+default;predeterminado;Caso por defecto en un switch
+delete;eliminar;Libera memoria din mica
+do;hacer;Inicio de un bucle do-while
+double;doble;Tipo de dato de punto flotante de doble precisi¢n
+dynamic_cast;conversi¢n din mica;Convierte punteros de clase de forma segura en tiempo de ejecuci¢n
+else;sino;Bloque alternativo de una condici¢n
+enum;enumeraci¢n;Define un conjunto de valores constantes
+explicit;expl¡cito;Evita conversiones autom ticas de constructores
+extern;externo;Indica que una variable se define fuera del archivo actual
+false;falso;Valor booleano falso
+float;flotante;Tipo de dato de punto flotante
+for;para;Bucle con inicializaci¢n, condici¢n y actualizaci¢n
+friend;amigo;Permite a funciones acceder a miembros privados
+goto;ir a;Salta a una etiqueta espec¡fica en el c¢digo
+if;si;Ejecuta c¢digo condicionalmente
+inline;en l¡nea;Sugiere al compilador insertar la funci¢n directamente
+int;entero;Tipo de dato num‚rico entero
+long;largo;Tipo entero de mayor capacidad
+mutable;mutable;Permite modificar miembros en objetos const
+namespace;espacio de nombres;Organiza c¢digo en  mbitos separados
+new;nuevo;Asigna memoria din mica
+operator;operador;Define o sobrecarga un operador
+private;privado;Acceso solo dentro de la clase
+protected;protegido;Acceso dentro de clase y derivadas
+public;p£blico;Acceso desde cualquier parte
+register;registro;Sugiere almacenar en registros del CPU
+reinterpret_cast;reinterpretar;Convierte tipos sin comprobar compatibilidad
+return;retornar;Devuelve un valor de una funci¢n
+short;corto;Tipo de entero peque¤o
+signed;con signo;Entero que puede ser negativo
+sizeof;tama¤o;Devuelve el tama¤o en bytes de un tipo o variable
+static;est tico;Mantiene valor entre llamadas o restringe visibilidad
+static_cast;conversi¢n est tica;Conversi¢n segura en tiempo de compilaci¢n
+struct;estructura;Agrupa variables bajo una estructura
+switch;selecci¢n m£ltiple;Ejecuta casos seg£n un valor
+template;plantilla;Permite programaci¢n gen‚rica
+this;esto;Puntero al objeto actual
+throw;lanzar;Lanza una excepci¢n
+true;verdadero;Valor booleano verdadero
+try;intentar;Bloque que puede lanzar excepciones
+typedef;alias de tipo;Define nombres alternativos para tipos
+typeid;tipo;Obtiene informaci¢n de tipo en tiempo de ejecuci¢n
+typename;nombre de tipo;Declara que un identificador es un tipo
+union;uni¢n;Tipo que almacena diferentes tipos en la misma ubicaci¢n
+unsigned;sin signo;Entero que solo almacena valores positivos
+using;usando;Introduce nombres de espacios de nombres
+virtual;virtual;Permite polimorfismo en clases derivadas
+void;vac¡o;Tipo de retorno que no devuelve valor
+volatile;vol til;Evita optimizaci¢n sobre variables que pueden cambiar externamente
+while;mientras;Bucle que se repite mientras se cumpla una condici¢n
