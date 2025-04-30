@@ -14,7 +14,7 @@ delete;eliminar;Libera memoria din mica
 do;hacer;Inicio de un bucle do-while
 double;doble;Tipo de dato de punto flotante de doble precisi¢n
 dynamic_cast;conversi¢n din mica;Convierte punteros de clase de forma segura en tiempo de ejecuci¢n
-else;sino;Bloque alternativo de una condici¢n
+else;entonces;Bloque alternativo de una condici¢n
 enum;enumeraci¢n;Define un conjunto de valores constantes
 explicit;expl¡cito;Evita conversiones autom ticas de constructores
 extern;externo;Indica que una variable se define fuera del archivo actual
@@ -59,3 +59,5 @@ virtual;virtual;Permite polimorfismo en clases derivadas
 void;vac¡o;Tipo de retorno que no devuelve valor
 volatile;vol til;Evita optimizaci¢n sobre variables que pueden cambiar externamente
 while;mientras;Bucle que se repite mientras se cumpla una condici¢n
+main;principal;Funci¢n principal del programa donde comienza la ejecuci¢n
+string;cadena;Tipo de dato para almacenar texto (secuencias de caracteres)

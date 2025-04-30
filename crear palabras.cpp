@@ -161,60 +161,46 @@ void traducirTexto(const vector<Palabra>& palabras) {
         textoOriginal.push_back(linea);
     }
 
-  
-    vector<string> estructurasControl = {"if", "for", "while", "switch"};
-
-
-    vector<string> pilaEstructuras;
-
     cout << "\nTexto traducido:\n";
 
     for (string& linea : textoOriginal) {
         stringstream ss(linea);
         string palabra;
         string lineaTraducida;
+        string estructuraActual = "";
+        bool esEstructuraControl = false;
 
         while (ss >> palabra) {
             string palabraLimpia = palabra;
-           
             palabraLimpia.erase(remove_if(palabraLimpia.begin(), palabraLimpia.end(), ::ispunct), palabraLimpia.end());
 
-            // Buscar la traducción
             auto it = find_if(palabras.begin(), palabras.end(), [&palabraLimpia](const Palabra& p) {
                 return p.palabra == palabraLimpia;
             });
 
-          
             if (it != palabras.end()) {
                 string traduccion = it->traduccion;
 
-                if (find(estructurasControl.begin(), estructurasControl.end(), palabraLimpia) != estructurasControl.end()
-                    && linea.find("{") != string::npos) {
+                if (palabraLimpia == "if" || palabraLimpia == "else" || palabraLimpia == "else if") {
+                    estructuraActual = traduccion; // "si", "sino", etc.
+                    esEstructuraControl = true;
                     lineaTraducida += traduccion + " ";
-                    lineaTraducida += "inicio_" + palabraLimpia + " ";
-                    pilaEstructuras.push_back(palabraLimpia);
                     continue;
                 }
 
-              
                 lineaTraducida += traduccion + " ";
             } else {
                 lineaTraducida += palabra + " ";
             }
         }
 
-    
-        if (linea.find("}") != string::npos) {
-            if (!pilaEstructuras.empty()) {
-                string estructura = pilaEstructuras.back();
-                pilaEstructuras.pop_back();
-                lineaTraducida += "fin_" + estructura;
-            } else {
-                lineaTraducida += "}";
-            }
+        if (esEstructuraControl) {
+            cout << lineaTraducida << "inicio " << estructuraActual << endl;
+            cout << "fin " << estructuraActual << endl;
+        } else {
+            cout << lineaTraducida << endl;
         }
 
-        cout << lineaTraducida << endl;
     }
 }
 
@@ -283,7 +269,7 @@ int main() {
             default:
                 cout << "Opción no válida, intente de nuevo.\n";
         }
-    } while (opcion != 5);
+    } while (opcion != 6);
 
     return 0;
 }
